@@ -1,0 +1,125 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000000;
+    color: #666666;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    letter-spacing: 1px;
+    font-size: 16px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    color: #ff0000;
+    text-transform: uppercase;
+    font-size: 4em;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+    letter-spacing: 2px;
+    margin: 50px 0;
+}
+
+h2 {
+    color: #f0f0f0;
+    font-size: 3em;
+    margin-top: 20px;
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000;
+}
+
+footer {
+    background-color: #111111;
+    color: #999999;
+    padding: 20px 0;
+    font-size: 1em;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+.main {
+    color: #cccccc;
+    margin: 20px;
+    animation: flicker 3s infinite alternate;
+}
+
+.glitch-text {
+    font-size: 22px;
+    line-height: 1.8;
+    color: #eeeeee;
+    text-align: center;
+    position: relative;
+    animation: glitch 1.5s infinite alternate;
+}
+
+.creepy-text {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    animation: shake 1s infinite alternate;
+}
+
+/* Glitch effect */
+@keyframes glitch {
+    0% {
+        text-shadow: -1px 0px 0px #ff0000, 1px 0px 0px #ff0000;
+        transform: translate(0, 0);
+    }
+    50% {
+        text-shadow: -2px 2px 0px #ff0000, 2px -2px 0px #ff0000;
+        transform: translate(-1px, 1px);
+    }
+    100% {
+        text-shadow: 0px 0px 8px #ff0000, 0px 0px 20px #ff0000;
+        transform: translate(0, 0);
+    }
+}
+
+/* Flickering animation */
+@keyframes flicker {
+    0% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+/* Shake animation */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10px) translateY(5px);
+    }
+    100% {
+        transform: translateX(10px) translateY(-5px);
+    }
+}
+
+/* Button styling */
+.translate-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 10px #ff0000;
+    border-radius: 5px;
+}
+
+.translate-button:hover {
+    background-color: #cc0000;
+}

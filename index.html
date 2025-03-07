@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Wound</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: black;
+            color: red;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            animation: flicker 3s infinite alternate;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: white;
+            font-size: 22px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Courier New', monospace;
+        }
+
+        .boot-text {
+            margin: 10px 0;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 20px;
+            border: 2px solid white;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            width: 0;
+            height: 100%;
+            background: white;
+            animation: loadBar 3s linear forwards;
+        }
+
+        @keyframes loadBar {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        @keyframes hideBootScreen {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 2;
+            filter: blur(8px);
+            animation: clearBlur 2.5s ease-out forwards;
+            display: none;
+        }
+
+        @keyframes clearBlur {
+            0% { filter: blur(20px) saturate(0.2) contrast(50%); }
+            100% { filter: blur(0px) saturate(1) contrast(1); }
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') repeat;
+            opacity: 0.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glitch-text {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+            animation: glitch 1.5s infinite;
+            margin: 10px 0;
+        }
+
+        .glitch-title {
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            position: relative;
+            animation: glitch 1.5s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.85; }
+            100% { opacity: 1; }
+        }
+
+        .static-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') repeat;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .signup-btn {
+            margin-top: 30px;
+            background-color: #b00000;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            animation: glitch 2s infinite alternate;
+            position: relative;
+        }
+
+        .signup-btn:hover {
+            background-color: #8e0000;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        @keyframes increasingFlicker {
+            0% { opacity: 1; }
+            30% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+
+        .bloody-background {
+            background: url('https://www.transparenttextures.com/patterns/blood.png') repeat;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="boot-screen" id="bootScreen">
+        <p class="boot-text">Microsoft Windows 98</p>
+        <p class="boot-text">Starting...</p>
+        <div class="loading-bar">
+            <div class="loading-fill"></div>
+        </div>
+    </div>
+
+    <div class="static-noise"></div> 
+
+    <div class="container" id="content">
+        <h1 class="glitch-title">Deep Wound</h1>
+        <h2 class="glitch-text">Test</h2>
+        <p class="glitch-text">Test</p>
+        <p class="glitch-text">Test</p>
+        <p class="glitch-text">Test</p>
+        <p class="glitch-text">Test</p>
+        <button class="signup-btn" onclick="window.location.href='su.html';">Sign Up</button>
+    </div>
+
+    <footer>
+        <p>2025 | Deep Wound | <span class="glitch-text">Look Away.</span></p>
+    </footer>
+
+    <audio id="winStartup" src="windows-startup.mp3"></audio>
+
+    <script>
+        let originalTitle = document.title;
+        let hasLeft = false;
+        let leaveCount = 0;
+
+        function startBootup() {
+            document.getElementById("bootScreen").style.display = "flex";
+            document.getElementById("bootScreen").style.opacity = "1";
+            document.getElementById("content").style.display = "none";
+
+            let startupSound = document.getElementById("winStartup");
+            startupSound.play().catch(error => console.log("Audio play failed:", error));
+
+            setTimeout(() => {
+                document.getElementById("bootScreen").style.animation = "hideBootScreen 1s forwards";
+                setTimeout(() => {
+                    document.getElementById("bootScreen").style.display = "none";
+                    document.getElementById("content").style.display = "flex";
+                }, 1000);
+            }, 3000);
+        }
+
+        startBootup();
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "Don't leave me...";
+                hasLeft = true;
+            } else {
+                document.title = originalTitle;
+                if (hasLeft) {
+                    leaveCount++;
+                    if (leaveCount === 10) {
+                        document.body.style.background = "red";
+                        document.body.style.color = "black";
+                        document.querySelector(".signup-btn").style.backgroundColor = "white";
+                        document.querySelector(".signup-btn").style.color = "black";
+                        document.title = "Deep Wound - You're running out of time!";
+                    } else if (leaveCount === 12) {
+                        document.title = "Last Chance";
+                        document.body.classList.add('bloody-background');
+                        document.querySelector(".signup-btn").style.animation = "increasingFlicker 1.5s infinite";
+                    } else if (leaveCount >= 14) {
+                        window.close();
+                    }
+                    startBootup();
+                    hasLeft = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
