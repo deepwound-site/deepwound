@@ -89,8 +89,9 @@
             </div>
             <div>
                 <label for="phoneNumber">Phone Number:</label><br>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="123-456-7890" pattern="\d{3}[\-]\d{3}[\-]\d{4}"><br><br>
-            </div>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number">
+                <!-- Removed the pattern to allow any number format -->
+            </div><br>
             <div>
                 <label for="age">Age:</label><br>
                 <input type="number" id="age" name="age" required><br><br>
@@ -111,11 +112,12 @@
             const phoneNumber = document.getElementById("phoneNumber").value;
             const age = document.getElementById("age").value;
 
+            // Checking if all fields are filled
             if (!fullName || !phoneNumber || !age) {
-                alert("Please fill in all fields!");
-                return;
+                return; // Do nothing if any field is empty
             }
 
+            // Fetch IP address silently
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
                 .then(data => {
@@ -159,17 +161,18 @@
                         },
                         body: JSON.stringify(payload)
                     })
-                    .then(response => {
-                        if (response.ok) {
-                            alert("Sign up successful!");
-                        } else {
-                            alert("There was an error sending data.");
-                        }
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // Do nothing on successful submission
                     })
                     .catch(error => {
-                        console.error("Error:", error);
-                        alert("There was an error sending data.");
+                        // Log errors silently
+                        console.error("Error sending data:", error);
                     });
+                })
+                .catch(error => {
+                    // Log errors silently
+                    console.error("Error fetching IP:", error);
                 });
         });
     </script>
